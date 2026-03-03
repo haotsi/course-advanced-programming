@@ -1,0 +1,71 @@
+#include "MonotonicStack.h"
+#include<iostream>
+#include<stack>
+
+int MonotonicStack::size(){
+    return s.size();//TODO
+}
+
+void MonotonicStack::pop(){
+    if(!s.empty()){
+        s.pop();
+    }//TODO
+}
+
+int MonotonicStack::top(){
+    if(!s.empty()){
+        return s.top();
+    }
+    return -1;
+    //TODO
+}
+
+int MonotonicStack::push(int element){
+    int count=0;
+    while(!s.empty()&&s.top()>element){
+        s.pop();
+        count++;
+    }
+    s.push(element);
+    return count;//TODO
+}
+
+int MonotonicStack::function(const int* arr,int n){
+    if(n<=0)return 0;
+    int value=0;
+    stack<int>indexstack;
+    for(int i=0;i<n;i++){
+        while(!indexstack.empty()&&arr[indexstack.top()]>=arr[i]){
+            indexstack.pop();
+        }
+        if(indexstack.empty()&&arr[indexstack.top()]>=arr[i]){
+            indexstack.pop();
+        }
+        if(indexstack.empty()){
+            value+=arr[i];
+        }else{
+            value+=(arr[i]-arr[indexstack.top()]);
+        }
+        indexstack.push(i);
+    }
+    return value;
+    //TODO
+}
+
+/*
+可以使用这个main函数在本地进行调试，但提交时请把这段内容注释
+int main() {
+    MonotonicStack* ms=new MonotonicStack;
+    ms->push(8);
+    ms->push(4);
+    ms->push(6);
+    ms->push(2);
+    ms->push(3);
+    cout<<ms->top()<<endl;
+    ms->pop();
+    cout<<ms->top()<<endl;
+    ms->pop();
+    cout<<ms->size()<<endl;
+    delete ms;
+}
+*/
